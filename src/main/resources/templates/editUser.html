@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit User</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        form { margin: 20px 0; }
+        input { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<h1>Edit User</h1>
+<form action="#" th:action="@{/admin/edit/{id}(id=${user.id})}" th:object="${user}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" th:value="*{username}" required>
+
+    <label for="password">Password:</label>
+    <input type="text" id="password" name="password" th:value="*{password}" required>
+
+    <label for="sex">Sex:</label>
+    <input type="text" id="sex" name="sex" th:value="*{sex}" required>
+
+    <label for="favoriteSport">Favorite sport:</label>
+    <input type="text" id="favoriteSport" name="favoriteSport" th:value="*{favoriteSport}" required>
+
+    <label for="roles">Roles:</label>
+    <select id="roles" name="roles" multiple>
+        <option th:each="role : ${roles}"
+                th:value="${role.id}"
+                th:text="${role.name}"
+                th:selected="${user.roles.contains(role)}">
+        </option>
+    </select>
+
+    <br>
+    <input type="submit" value="Update User">
+</form>
+<a href="/admin">Back to User List</a>
+
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value = "Logout"/>
+</form>
+</body>
+</html>
