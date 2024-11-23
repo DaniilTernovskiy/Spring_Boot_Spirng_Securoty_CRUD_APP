@@ -8,9 +8,11 @@ import ru.itmentor.spring.boot_security.demo.models.Role;
 import ru.itmentor.spring.boot_security.demo.models.User;
 import ru.itmentor.spring.boot_security.demo.repositories.PeopleRepository;
 import ru.itmentor.spring.boot_security.demo.repositories.RoleRepository;
+import ru.itmentor.spring.boot_security.demo.util.UserNotFoundException;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,13 +31,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.getRoles().add(roleRepository.findByName("ROLE_USER"));
+        user.getRoles().add(roleRepository.findByName("ROLE_USER"));
         peopleRepository.save(user);
     }
 
     @Override
     public User getUser(long id) {
-        return peopleRepository.getById(id);
+        Optional<User> user = peopleRepository.findById(id);
+        return user.orElseThrow(UserNotFoundException::new);
     }
 
     @Override

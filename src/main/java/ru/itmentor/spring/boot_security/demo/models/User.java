@@ -1,5 +1,6 @@
 package ru.itmentor.spring.boot_security.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,6 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +21,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
 
     @Id
@@ -24,15 +29,20 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name="name")
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String username;
 
     @Column(name="Sex")
+    @NotEmpty(message = "Sex should be Male or Female")
     private String sex;
 
     @Column(name = "favorite_sport")
+    @NotEmpty(message = "Sport should not be empty")
     private String favoriteSport;
 
     @Column(name="password")
+    @NotEmpty(message = "Password should not be empty")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

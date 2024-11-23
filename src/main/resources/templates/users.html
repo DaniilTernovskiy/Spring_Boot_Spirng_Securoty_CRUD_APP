@@ -39,7 +39,7 @@
         <td>
             <a th:href="@{/admin/edit/{id}(id=${user.id})}">Edit</a>
             <a th:href="@{/admin/delete/{id}(id=${user.id})}">Delete</a>
-        </td>
+                    </td>
     </tr>
     </tbody>
 </table>
@@ -47,5 +47,8 @@
 <form th:action="@{/logout}" th:method="POST">
     <input type="submit" value = "Logout"/>
 </form>
+
+    <a th:href="@{/api/sayHello}">TestRestController</a>
+
 </body>
 </html>
